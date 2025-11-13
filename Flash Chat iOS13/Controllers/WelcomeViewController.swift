@@ -7,18 +7,31 @@
 //
 
 import UIKit
-import CLTypingLabel
 
 class WelcomeViewController: UIViewController {
 
-    @IBOutlet weak var titleLabel: CLTypingLabel!
+    @IBOutlet weak var titleLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        titleLabel.text = "⚡️FlashChat"
+        typeText("⚡️FlashChat", into: titleLabel, characterDelay: 0.08)
        
     }
     
+    /// Types text into a UILabel character by character. Compatible with iOS 13.
+    private func typeText(_ text: String, into label: UILabel, characterDelay: TimeInterval) {
+        label.text = ""
+        let characters = Array(text)
+        var currentIndex = 0
+        Timer.scheduledTimer(withTimeInterval: characterDelay, repeats: true) { timer in
+            if currentIndex < characters.count {
+                label.text?.append(characters[currentIndex])
+                currentIndex += 1
+            } else {
+                timer.invalidate()
+            }
+        }
+    }
 
 }
